@@ -77,7 +77,7 @@ exports.lambdaHandler = async (event) => {
       const response = await fetch(SENDINBLUE_API_ENDPOINT, apiRequest);
 
       if(response.ok) {
-        await sendSlackNotification(`✅ GrowthShake collected lead: ${emailAddress}`);
+        await sendSlackNotification(`✅ Email lambda collected lead: ${emailAddress}`);
         return RESPONSES.CONTACT_CREATED;
       }
 
@@ -85,7 +85,7 @@ exports.lambdaHandler = async (event) => {
       console.log(responseJson);
 
       if(responseJson.code === 'duplicate_parameter') {
-        await sendSlackNotification(`ℹ️ GrowthShake collected duplicate lead: ${emailAddress}`);
+        await sendSlackNotification(`ℹ️ Email lambda collected duplicate lead: ${emailAddress}`);
         return RESPONSES.CONTACT_EXISTS;
       }
       
@@ -97,11 +97,11 @@ exports.lambdaHandler = async (event) => {
       }
     } catch (err) {
       console.error(err);
-      await sendSlackNotification(`❗️GrowthShake email handler: ${JSON.stringify(err)}.\nRequest: ${apiRequest}`);
+      await sendSlackNotification(`❗️Email lambda error: ${JSON.stringify(err)}.\nRequest: ${apiRequest}`);
       return { 
         statusCode: 500, 
         headers: CORS_HEADERS, 
-        body: err//"Internal server error"
+        body: "Internal server error"
       }
     }
 };
