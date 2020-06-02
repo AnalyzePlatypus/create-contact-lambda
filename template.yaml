@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sendinblue-create-contact
+
+  Sample SAM Template for sendinblue-create-contact
+  
+
+Resources:
+  CreateContactFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: create-contact/
+      Handler: app.lambdaHandler
+      Runtime: nodejs12.x
+      Timeout: 30
+      Environment:
+        Variables:
+          SENDINBLUE_API_KEY: !Ref SENDINBLUE_API_KEY
+          CORS_HEADERS: !Ref CORS_HEADERS
+          SLACK_DEV_NOTIFICATIONS_WEBHOOK_URL: !Ref SLACK_DEV_NOTIFICATIONS_WEBHOOK_URL
+
+      Events:
+        CreateContactFunction:
+          Type: Api 
+          Properties:
+            Path: /create-contact
+            Method: get
